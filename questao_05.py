@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 def q5_calculo_prazo(data, prazo, tipo):
     """A partir de uma data realize o cálculo de prazos considerando o tipo de contagem.
 
@@ -11,7 +13,14 @@ def q5_calculo_prazo(data, prazo, tipo):
     
     Saída esperada: 
     Data 16/09/2024, prazo de 7 dias úteis, a data final é no dia 25/09/2024 e para os dias corridos 23/09/2024"""
-    return
+    
+
+    data_inicio = datetime.strftime(data, "%d/%m/%Y")    
+    data_corrida = data_inicio + timedelta(days=prazo)
+
+
+
+    return data_corrida
 
 print(q5_calculo_prazo("16/09/2024", 7, "UTEIS"))
 print(q5_calculo_prazo("16/09/2024", 7, "CORRIDOS"))

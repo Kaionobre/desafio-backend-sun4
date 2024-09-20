@@ -10,32 +10,18 @@ browser.maximize_window()
 
 browser.get('https://www.tjpb.jus.br/comarcas/lista')
 
-#cidades = browser.find_elements(By.CSS_SELECTOR, ".col-xs-6.col-sm-3")
 
 for cidade in encontrar_cidades(browser):
     
-    time.sleep(3)
-    cidade_falha = cidade.get_attribute('style')
 
-    if cidade_falha:
+    if cidades_com_falha(browser, cidade):
         continue
     else:
-        while True:
-            try:
-                time.sleep(1.5)
-                cidade.click()
-                break
-            except Exception as e:
-                print(f"Erro ao clicar na cidade: {e}")
-                continue  # Tenta clicar novamente
-        
-        while True:
-            try:
-                modal = browser.find_element(By.ID, "modal-detalhes-comarca")
-                break
-            except:
-                continue
 
+        clicar_na_cidade(browser, cidade)
+
+        modal = browser.find_element(By.ID, "modal-detalhes-comarca")
+    
         while True:
             try:
                 unidade = modal.find_element(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr > td:nth-child(1)')

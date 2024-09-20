@@ -4,8 +4,13 @@ def q2_contar_frequencia_palavra(text):
 
     Saída esperada: {'hello': 2, 'world': 1}
     """
-    for i in text:
-        print(i.split())
+
+    palavras = text.plit(' ')
+    dicionario_palavra_repetida = {}
+
+    for palavra in palavras:
+        if palavra in dicionario_palavra_repetida:
+            dicionario_palavra_repetida[palavra] +=1
 
     return {text}
 
