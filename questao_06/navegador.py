@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
 
 def encontrar_cidades(browser):
     cidades = browser.find_elements(By.CSS_SELECTOR, ".col-xs-6.col-sm-3")
@@ -22,7 +23,6 @@ def clicar_na_cidade(browser, cidade):
             print(f"Erro ao clicar na cidade: {e}")
             continue 
 
-
 def botao_fechar(browser, modal):
     while True:
         try:
@@ -36,53 +36,31 @@ def botao_fechar(browser, modal):
             print('elemento não aparece')
             continue
 
-
 def mostrar_resultado(cidade, unidade, juiz):
     print(f'cidade {cidade.text}, unidade {unidade.text}, juiz {juiz.text}')
-
-
 
 def ler_unidade_e_juiz(browser, modal):
     unidades = []
     juizes  = []
 
-    while True:
-        try:
-            linhas = modal.find_elements(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody')
+    try:
+        time.sleep(5)
+        linhas = modal.find_elements(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr')
 
-            for linha in linhas:
-                dado = linha.find_elements(By.TAG_NAME, 'td')
+        for linha in linhas:
+            dado = linha.find_elements(By.TAG_NAME, 'td')
 
-                if len(dado) >= 2:
-                    unidade = dado[0].text
-                    juiz = dado[1].text
-                    unidades.append(unidade)
-                    juizes.append(juiz)
-            break
-        except:
-            continue
+            if len(dado) >= 2:
+                unidade = dado[0].text.strip()
+                juiz = dado[1].text.strip()   
+                unidades.append(unidade)
+                juizes.append(juiz)
+
+    except Exception as e:
+        print(f"Erro ao ler unidades e juízes: {e}")
 
     return unidades, juizes
-
     
-def ler_unidade(browser, modal): 
-    while True:
-        try:
-            time.sleep(2)
-            unidade = modal.find_element(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr > td:nth-child(1)')
-            break
-        except:
-            continue
-    return unidade.text
-
-def ler_juiz(browser, modal):
-
-    while True:
-        try:
-            time.sleep(2)
-            juiz = modal.find_element(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr > td:nth-child(2)')
-            break
-        except:
-            continue
-
-    return juiz.text
+def limpar_terminal():
+    if os.name == 'nt':
+        os.system('cls')

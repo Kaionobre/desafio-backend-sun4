@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By 
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
 from navegador import *
 
 browser = webdriver.Chrome()
@@ -12,7 +13,7 @@ browser.get('https://www.tjpb.jus.br/comarcas/lista')
 dados_comarcas = {}
 
 for cidade in encontrar_cidades(browser):
-
+    time.sleep(2)
     nome_da_ciadde = cidade.text.strip()
     
     if cidades_com_falha(browser, cidade):
@@ -25,8 +26,6 @@ for cidade in encontrar_cidades(browser):
 
         jurisdicoes = []
 
-        # unidade = ler_unidade(browser, modal)
-        # juiz = ler_juiz(browser, modal)
         unidades, juizes = ler_unidade_e_juiz(browser, modal)
 
         for unidade, juiz in zip(unidades, juizes):
@@ -36,7 +35,10 @@ for cidade in encontrar_cidades(browser):
 
         dados_comarcas[nome_da_ciadde] = jurisdicoes
 
+        limpar_terminal()
+
         print(dados_comarcas) 
+        
 
 # def q6_bot_consulta_jurisdicao():
     # """Realizar uma busca de todas as comarcas, suas respectivas jurisdições e os juízes.
