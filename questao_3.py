@@ -11,5 +11,7 @@ DATAS_PARA_TRATAR = [
     '25/12/2022', 
     '31 de dezembro de 2022'
 ]
+
+
 for data in DATAS_PARA_TRATAR:
     print(q3_tratar_datas(DATAS_PARA_TRATAR))

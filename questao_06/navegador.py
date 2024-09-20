@@ -22,24 +22,41 @@ def clicar_na_cidade(browser, cidade):
             print(f"Erro ao clicar na cidade: {e}")
             continue 
 
-def ver_modal(browser):
+def ler_unidade(browser, modal): 
     while True:
         try:
-            modal = browser.find_element(By.ID, "modal-detalhes-comarca")
-            break
-        except:
-            continue
-    return modal
-
-def ver_unidade(browser, modal):
-    while True:
-        try:
+            time.sleep(2)
             unidade = modal.find_element(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr > td:nth-child(1)')
             break
         except:
             continue
-        
-    return unidade
+    return unidade.text
+
+def ler_juiz(browser, modal):
+
+    while True:
+        try:
+            time.sleep(2)
+            juiz = modal.find_element(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody > tr > td:nth-child(2)')
+            break
+        except:
+            continue
+
+    return juiz.text
+
+def botao_fechar(browser, modal):
+    while True:
+        try:
+            time.sleep(1)
+            fechar_modal = modal.find_element(By.XPATH, '//*[@id="modal-detalhes-comarca"]/div/div/div[1]/button')
+            if fechar_modal.is_displayed():
+                time.sleep(3)
+                fechar_modal.click()
+                break
+        except:
+            print('elemento não aparece')
+            continue
+
 
 def mostrar_resultado(cidade, unidade, juiz):
     print(f'cidade {cidade.text}, unidade {unidade.text}, juiz {juiz.text}')
