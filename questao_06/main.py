@@ -25,10 +25,12 @@ for cidade in encontrar_cidades(browser):
 
         jurisdicoes = []
 
-        unidade = ler_unidade(browser, modal)
-        juiz = ler_juiz(browser, modal)
+        # unidade = ler_unidade(browser, modal)
+        # juiz = ler_juiz(browser, modal)
+        unidades, juizes = ler_unidade_e_juiz(browser, modal)
 
-        jurisdicoes.append({unidade: juiz})
+        for unidade, juiz in zip(unidades, juizes):
+            jurisdicoes.append({unidade: juiz})
 
         botao_fechar(browser, modal)
 

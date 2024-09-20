@@ -22,6 +22,49 @@ def clicar_na_cidade(browser, cidade):
             print(f"Erro ao clicar na cidade: {e}")
             continue 
 
+
+def botao_fechar(browser, modal):
+    while True:
+        try:
+            time.sleep(1)
+            fechar_modal = modal.find_element(By.XPATH, '//*[@id="modal-detalhes-comarca"]/div/div/div[1]/button')
+            if fechar_modal.is_displayed():
+                time.sleep(3)
+                fechar_modal.click()
+                break
+        except:
+            print('elemento não aparece')
+            continue
+
+
+def mostrar_resultado(cidade, unidade, juiz):
+    print(f'cidade {cidade.text}, unidade {unidade.text}, juiz {juiz.text}')
+
+
+
+def ler_unidade_e_juiz(browser, modal):
+    unidades = []
+    juizes  = []
+
+    while True:
+        try:
+            linhas = modal.find_elements(By.CSS_SELECTOR, '#modal-detalhes-comarca > div > div > div.modal-body > table > tbody')
+
+            for linha in linhas:
+                dado = linha.find_elements(By.TAG_NAME, 'td')
+
+                if len(dado) >= 2:
+                    unidade = dado[0].text
+                    juiz = dado[1].text
+                    unidades.append(unidade)
+                    juizes.append(juiz)
+            break
+        except:
+            continue
+
+    return unidades, juizes
+
+    
 def ler_unidade(browser, modal): 
     while True:
         try:
@@ -43,20 +86,3 @@ def ler_juiz(browser, modal):
             continue
 
     return juiz.text
-
-def botao_fechar(browser, modal):
-    while True:
-        try:
-            time.sleep(1)
-            fechar_modal = modal.find_element(By.XPATH, '//*[@id="modal-detalhes-comarca"]/div/div/div[1]/button')
-            if fechar_modal.is_displayed():
-                time.sleep(3)
-                fechar_modal.click()
-                break
-        except:
-            print('elemento não aparece')
-            continue
-
-
-def mostrar_resultado(cidade, unidade, juiz):
-    print(f'cidade {cidade.text}, unidade {unidade.text}, juiz {juiz.text}')
