@@ -14,7 +14,6 @@ def q5_calculo_prazo(data, prazo, tipo):
     Saída esperada: 
     Data 16/09/2024, prazo de 7 dias úteis, a data final é no dia 25/09/2024 e para os dias corridos 23/09/2024"""
 
-
     data = datetime.strptime(data, '%d/%m/%Y')
 
     dia = data.day
@@ -22,20 +21,25 @@ def q5_calculo_prazo(data, prazo, tipo):
     ano = data.year
 
     data_percorrer = dia + 1
-    dia_util = data.weekday() < 5   
+    data_inicial_formatada = data.strftime('%d/%m/%Y')
 
     if tipo == 'CORRIDOS':
         data_corrida = dia + prazo
         nova_data = datetime(ano, mes, data_corrida)
         data_formatada = nova_data.strftime('%d/%m/%Y')
-        return (f'Data {data_formatada}, prazo de {prazo} dias corridos, a data final é no dia {data_corrida}')
+        return (f'Data {data.strftime('%d/%m/%Y')}, prazo de {prazo} dias corridos, a data final é no dia {data_formatada}')
     
     elif tipo == 'UTEIS':
-
         
+        dias_adicionados = 0
+        while dias_adicionados < prazo:
+            data += timedelta(days=1)
+            if data.weekday() < 5:
+                dias_adicionados += 1
 
+        data_final = data.strftime('%d/%m/%Y')
 
+        return f"Data {data_inicial_formatada}, prazo de {prazo} dias úteis, a data final é no dia {data_final}"
 
-
-print(q5_calculo_prazo("16/09/2024", 7, "UTEIS"))
+print(q5_calculo_prazo("11/09/2024", 7, "UTEIS"))
 print(q5_calculo_prazo("16/09/2024", 7, "CORRIDOS"))

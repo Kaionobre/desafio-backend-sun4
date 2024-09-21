@@ -5,41 +5,42 @@ import time
 import os
 from navegador import *
 
-browser = webdriver.Chrome()
-browser.maximize_window()
+def q6_bot_consulta_jurisdicao():
+    browser = webdriver.Chrome()
+    browser.maximize_window()
 
-browser.get('https://www.tjpb.jus.br/comarcas/lista')
+    browser.get('https://www.tjpb.jus.br/comarcas/lista')
 
-dados_comarcas = {}
+    dados_comarcas = {}
 
-for cidade in encontrar_cidades(browser):
-    time.sleep(2)
-    nome_da_ciadde = cidade.text.strip()
-    
-    if cidades_com_falha(browser, cidade):
-        continue
-    else:
-
-        clicar_na_cidade(browser, cidade)
-
-        modal = browser.find_element(By.ID, "modal-detalhes-comarca")
-
-        jurisdicoes = []
-
-        unidades, juizes = ler_unidade_e_juiz(browser, modal)
-
-        for unidade, juiz in zip(unidades, juizes):
-            jurisdicoes.append({unidade: juiz})
-
-        botao_fechar(browser, modal)
-
-        dados_comarcas[nome_da_ciadde] = jurisdicoes
-
-        limpar_terminal()
-
-        print(dados_comarcas) 
+    for cidade in encontrar_cidades(browser):
+        time.sleep(2)
+        nome_da_ciadde = cidade.text.strip()
         
+        if cidades_com_falha(browser, cidade):
+            continue
+        else:
 
+            clicar_na_cidade(browser, cidade)
+
+            modal = browser.find_element(By.ID, "modal-detalhes-comarca")
+
+            jurisdicoes = []
+
+            unidades, juizes = ler_unidade_e_juiz(browser, modal)
+
+            for unidade, juiz in zip(unidades, juizes):
+                jurisdicoes.append({unidade: juiz})
+
+            botao_fechar(browser, modal)
+
+            dados_comarcas[nome_da_ciadde] = jurisdicoes
+
+            limpar_terminal()
+
+            print(dados_comarcas) 
+            
+q6_bot_consulta_jurisdicao()
 # def q6_bot_consulta_jurisdicao():
     # """Realizar uma busca de todas as comarcas, suas respectivas jurisdições e os juízes.
 
